@@ -1,0 +1,1 @@
+A very small password management app for storing password locally using [node-persist](https://github.com/simonlast/node-persist).
