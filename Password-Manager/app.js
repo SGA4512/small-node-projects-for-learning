@@ -2,11 +2,11 @@ console.log('Starting password-manager');
 
 var storage = require('node-persist');
 storage.initSync();
-// Following node-persit's official github page - https://github.com/simonlast/node-persist
+// Following node-persist's official github page - https://github.com/simonlast/node-persist
 
 // Learning note - getItemSync function takes equivalent of a key-value pair as its arguments - the first argument is the key and the second one is the value.
-function createAccout (account) {
-    var accounts = getItemSync('accounts');
+function createAccount (account) {
+    var accounts = storage.getItemSync('accounts');
 
     if (typeof accounts === 'undefined') {
         accounts = [];
@@ -20,7 +20,7 @@ function createAccout (account) {
 }
 
 function getAccount(accountName) {
-    var accounts = getItemSync('accounts');
+    var accounts = storage.getItemSync('accounts');
     var matchedAccount;
 
     accounts.forEach(function(account) {
@@ -30,3 +30,13 @@ function getAccount(accountName) {
     });
     return matchedAccount;
 }
+
+/*
+createAccount({
+   name: 'Facebook',
+   username: 'example@gmail.com',
+   password: '1234'
+});*/
+
+var facebookAcct = getAccount('Facebook');
+console.log(facebookAcct);
