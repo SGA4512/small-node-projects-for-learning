@@ -1,0 +1,23 @@
+[
+  {
+    "name":"Hardware Repair",
+    "description":"Lorem ipsum dolor sit amet, vim dicam praesent disputando eu",
+    "price_range":"$100 - $200"
+  },
+  {
+    "name":"Virus Removal",
+    "description":"vim dicam praesent disputando eu",
+    "price_range":"$50 - $150"
+  },
+  {
+    "name":"PC Tune Up",
+    "description":"Sit at iusto maluisset philosophia, eam in tale sonet. ",
+    "price_range":"$100 - $200"
+  },
+  {
+    "name":"Network Services",
+    "description":"Sit at iusto maluisset philosophia, eam in tale sonet. ",
+    "price_range":"$500 - $1000"
+  }
+
+]

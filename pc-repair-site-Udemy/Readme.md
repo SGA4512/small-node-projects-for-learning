@@ -1,0 +1,5 @@
+A very simple PC-Repair-Site that I built following Udemy's Tutorial. This is clearly not a production grade site and no testing has been implemented.
+
+To check the working version do a git clone ``git clone git@github.com:rohan-paul/pc-repair-site-Udemy.git`` and then from the root directory ``npm install`` and then ``npm start``
+
+Have implemented Nodemailer contact form submission. However, for this to work as expected, i.e. after a contact form is submitted from the contact tab of this site, a confirmation email should be sent to the email stated in the "to" field ('christmas2014dec@gmail.com') in ../routes/contact.js in "mailOptions", I have to I set the "Access for less secure apps" in the relevant Google Account (christmas2014dec@gmail.com in this case), setting it to "Turn On" / "Enable" at (https://www.google.com/settings/security/lesssecureapps) . Before enabling this, Gmail was sending me a "Sign-in attempt prevented" email when I was submitting the form.

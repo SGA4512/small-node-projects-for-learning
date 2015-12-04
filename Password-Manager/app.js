@@ -5,6 +5,10 @@ storage.initSync();
 // Following node-persist's official github page - https://github.com/simonlast/node-persist
 
 // Learning note - getItemSync function takes equivalent of a key-value pair as its arguments - the first argument is the key and the second one is the value.
+
+// below is the code for 
+
+
 function createAccount (account) {
     var accounts = storage.getItemSync('accounts');
 
