@@ -62,7 +62,7 @@ var argv = require('yargs')
 var command = argv._[0];
 
 function getAccounts(masterPassword) {
-    var encryptedAccount = storage.getItemSync('accountsKey');
+    var encryptedAccount = storage.getItemSync('accounts');
     var accounts = [];
 
     if (typeof encryptedAccount !== 'undefined') {
@@ -75,7 +75,7 @@ function getAccounts(masterPassword) {
 
 function saveAccounts(accounts, masterPassword) {
     var encryptedAccounts = crypto.AES.encrypt(JSON.stringify(accounts), masterPassword);
-    storage.setItemSync('accountsKey', encryptedAccounts.toString());
+    storage.setItemSync('accounts', encryptedAccounts.toString());
     // My own learning note - per official github page- function setItemSync(key, value) takes an object (a key-value pair) as its argument.
 
     return accounts;
@@ -83,7 +83,7 @@ function saveAccounts(accounts, masterPassword) {
 
 
 function createAccount (account, masterPassword) {
-    var accounts = getAccounts(masterPassword);
+    var accounts = getAccount(masterPassword);
     accounts.push(account);
     saveAccounts(accounts, masterPassword);
     return account;
