@@ -6,10 +6,68 @@ storage.initSync();
 
 // Learning note - getItemSync function takes equivalent of a key-value pair as its arguments - the first argument is the key and the second one is the value.
 
-// below is the code for 
+// Code implementing commandline input by user using yergs (https://github.com/bcoe/yargs)
+var argv = require('yargs')
+    .command('create', 'Create a new account', function(yargs) {
+        yargs.options({
+            name: {
+                demand: true,
+                alias: 'n',
+                description: 'Your account name goes here',
+                type: 'string'
+            },
+            username: {
+                demand: true,
+                alias: 'u',
+                description: 'Your account username or email goes here',
+                type: 'string'
+            },
+            password: {
+                demand: true,
+                alias: 'p',
+                description: 'Your account password goes here',
+                type: 'string'
+            },
+            masterPassword: {
+                demand: true,
+                alias: 'm',
+                description: 'Master Password',
+                type: 'string'
+            }
+        })
+        .help('help');
+    })
+    .command('get', 'Get an existing account', function(yargs) {
+        yargs.options({
+            name: {
+                demand: true,
+                alias: 'n',
+                description: 'Your account name goes here',
+                type: 'string'
+            },
+            masterPassword: {
+                demand: true,
+                alias: 'm',
+                description: 'Master Password',
+                type: 'string'
+            }
+        })
+        .help('help');
+    })
+    .help('help')
+    .argv;
 
+var command = argv._[0];
 
-function createAccount (account) {
+function getAccounts(masterPassword) {
+
+}
+
+function saveAccounts(masterPassword) {
+
+}
+
+function createAccount (account, masterPassword) {
     var accounts = storage.getItemSync('accounts');
 
     if (typeof accounts === 'undefined') {
@@ -23,7 +81,7 @@ function createAccount (account) {
 
 }
 
-function getAccount(accountName) {
+function getAccount(accountName, masterPassword) {
     var accounts = storage.getItemSync('accounts');
     var matchedAccount;
 
@@ -35,12 +93,28 @@ function getAccount(accountName) {
     return matchedAccount;
 }
 
-/*
-createAccount({
-   name: 'Facebook',
-   username: 'example@gmail.com',
-   password: '1234'
-});*/
+if(command === 'create') {
+    var createdAccount = createAccount({
+        name: argv.name,
+        username: argv.username,
+        password: argv.password
+    },
+    argv.masterPassword);
+    console.log('Account Created!');
+    console.log(createdAccount);
 
-var facebookAcct = getAccount('Facebook');
-console.log(facebookAcct);
+} else if (command === 'get') {
+    var fetchedAccount = getAccount(argv.name, argv.masterPassword);
+
+    if(typeof fetchedAccount === 'undefined') {
+        console.log('Account not found');
+    } else {
+        console.log('Account found!');
+        console.log(fetchedAccount);
+    }
+}
+
+
+
+
+
