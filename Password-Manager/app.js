@@ -6,8 +6,6 @@ storage.initSync();
 
 var crypto = require('crypto-js');
 
-// Learning note - getItemSync function takes equivalent of a key-value pair as its arguments - the first argument is the key and the second one is the value.
-
 // Code implementing commandline input by user (https://github.com/bcoe/yargs)
 var argv = require('yargs')
     .command('create', 'Create a new account', function(yargs) {
@@ -61,9 +59,11 @@ var argv = require('yargs')
 
 var command = argv._[0];
 
-function getAccounts(masterPassword) {
+function getAllAccounts(masterPassword) {
     var encryptedAccount = storage.getItemSync('accountsKey');
-    var accounts = [];
+    var accounts = [];  // This variable is the final array of objects that will contain all the key-value pairs of a particular account.
+
+// My learning note - getItemSync(key) function takes the key from an object of key-value pair as its arguments (https://github.com/simonlast/node-persist).
 
     if (typeof encryptedAccount !== 'undefined') {
         var bytes = crypto.AES.decrypt(encryptedAccount, masterPassword);
@@ -73,25 +73,25 @@ function getAccounts(masterPassword) {
     return accounts;
 }
 
-function saveAccounts(accounts, masterPassword) {
+function saveAllAccounts(accounts, masterPassword) {
     var encryptedAccounts = crypto.AES.encrypt(JSON.stringify(accounts), masterPassword);
     storage.setItemSync('accountsKey', encryptedAccounts.toString());
-    // My own learning note - per official github page- function setItemSync(key, value) takes an object (a key-value pair) as its argument.
+// My learning note - per official github page- function setItemSync(key, value) takes an object (a key-value pair) as its argument.
 
     return accounts;
 }
 
 
 function createAccount (account, masterPassword) {
-    var accounts = getAccounts(masterPassword);
+    var accounts = getAllAccounts(masterPassword);
     accounts.push(account);
-    saveAccounts(accounts, masterPassword);
+    saveAllAccounts(accounts, masterPassword);
     return account;
 }
 
 
 function getAccount(accountName, masterPassword) {
-    var accounts = getAccounts(masterPassword);
+    var accounts = getAllAccounts(masterPassword);
     var matchedAccount;
 
     accounts.forEach(function(account) {
@@ -103,23 +103,31 @@ function getAccount(accountName, masterPassword) {
 }
 
 if(command === 'create') {
-    var createdAccount = createAccount({
-            name: argv.name,
-            username: argv.username,
-            password: argv.password
-        },
-        argv.masterPassword);
-    console.log('Account Created!');
-    console.log(createdAccount);
+    try {
+        var createdAccount = createAccount({
+                name: argv.name,
+                username: argv.username,
+                password: argv.password
+            },
+            argv.masterPassword);
+        console.log('Account Created!');
+        console.log(createdAccount);
+    } catch (e) {
+        console.log('Unable to Create Account');
+    }
 
 } else if (command === 'get') {
-    var fetchedAccount = getAccount(argv.name, argv.masterPassword);
+    try {
+        var fetchedAccount = getAccount(argv.name, argv.masterPassword);
 
-    if(typeof fetchedAccount === 'undefined') {
-        console.log('Account not found');
-    } else {
-        console.log('Account found!');
-        console.log(fetchedAccount);
+        if(typeof fetchedAccount === 'undefined') {
+            console.log('Account not found');
+        } else {
+            console.log('Account found!');
+            console.log(fetchedAccount);
+        }
+    } catch (e) {
+        console.log('Unable to fetch account');
     }
 }
 
