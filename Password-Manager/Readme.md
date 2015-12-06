@@ -9,7 +9,9 @@ The user will have to create a master password (for the first time) when creatin
 Example command to create an account - ``node app.js create -n paul -u rohanP -p pass123 -m masterP``
 
 ``n`` is alias for name  (the example I have used here is "paul")
+
 ``u`` is alias for username (the example I have used here is "rohanP")
+
 ``m`` is alias for master password (the example I have used here is "masterP")
 
 
