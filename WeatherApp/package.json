@@ -1,0 +1,14 @@
+{
+  "name": "WeatherApp",
+  "version": "0.0.0",
+  "description": "",
+  "main": "weather.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Rohan Paul",
+  "license": "ISC",
+  "dependencies": {
+    "request": "^2.67.0"
+  }
+}
