@@ -12,28 +12,29 @@ var argv = require('yargs')
     .help('help')
     .argv;
 
-
-/*
-weather(function(currentWeather) {
-    console.log(currentWeather);
-});
-
-location(function(location) {
-   if(!location) {
-       console.log('Unable to fetch location');
-       return;
-   }
-
-   console.log('city: ' + location.city);
-   console.log('log/lat ' + location.loc);
-});*/
-
+/* My own very basic note on how the weather() and location() function is being called in app.js -
+A) At the top of app.js I have declared the 2 variables weather and location and required the respective .js files
+B) And in weather.js I have the function defined in module.exports = function(location, callback).
+C) And that's the function that I am calling in app.js with
+weather(argv.l, function(currentWeather) {})
+D) The same goes for location(), i.e. I am calling this function as its been defined in location.js with module.exports
+*/
 
 if (typeof argv.l === 'string' && argv.l.length > 0) {
-    console.log('has location');
+    console.log('Location was provided');
     weather(argv.l, function(currentWeather) {
         console.log(currentWeather);
     });
 } else {
-    console.log('Location not provided');
+    console.log('Location was not provided');
+    location(function(location) {
+        if(location) {
+            weather(location.city, function(currentWeather) {
+                console.log(currentWeather);
+            });
+        } else {
+            console.log('Unable to guess location');
+        }
+
+    });
 }
